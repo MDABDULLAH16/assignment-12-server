@@ -78,26 +78,30 @@ async function run() {
             res.send(users);
         })
         //update
-        //update quantity
-        // app.put("/update/:id", async (req, res) => {
-        //     const id = req.params.id;
-        //     const object = req.body;
+        app.put("/update/:id", async (req, res) => {
+            const id = req.params.id;
+            const object = req.body;
 
-        //     const filter = { _id: ObjectId(id) };
-        //     const options = { upsert: true };
-        //     const updateDoc = {
-        //         $set: {
-        //             Aquantity: object.updatedQuantity,
-        //         },
-        //     };
-        //     console.log(updateDoc);
-        //     const result = await partCollection.updateOne(
-        //         filter,
-        //         updateDoc,
-        //         options
-        //     );
-        //     res.send(result);
-        // });
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    availableQuantity: object.updatedQuantity,
+                },
+            };
+            const result = await partCollection.updateOne(
+                filter,
+                updateDoc,
+                options
+            );
+            res.send(result);
+        });
+        app.post("/order", async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.send(result);
+        });
+
         // dashboard review data 
         app.get('/review', async (req, res) => {
             const query = {};
@@ -114,16 +118,16 @@ async function run() {
             res.send(result);
         });
         //order
-        // app.get('/order', async (req, res) => {
-        //     const users = await ordersCollection.find().toArray();
-        //     res.send(users);
-        // })
+        app.get('/order', async (req, res) => {
+            const users = await ordersCollection.find().toArray();
+            res.send(users);
+        })
         // // post add items
-        // app.post("/order", async (req, res) => {
-        //     const order = req.body;
-        //     const result = await ordersCollection.insertOne(order);
-        //     res.send(result);
-        // });
+        app.post("/order", async (req, res) => {
+            const order = req.body;
+            const result = await ordersCollection.insertOne(order);
+            res.send(result);
+        });
 
 
     }
